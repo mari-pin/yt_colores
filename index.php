@@ -1,17 +1,27 @@
 <?php
-
+/* hemos hecho la conexion con SQL */
 include_once'conexion.php';
 
-/* primero la sentencia */
+//LEER
+/* He  creado la sentencia*/
 $sql_leer = 'SELECT * FROM colores';
 
-
+/* He  preparado la sentencia*/
 $gsent = $pdo->prepare($sql_leer);
+
+/* ejecutamos la sentencia */
 $gsent-> execute();
+
 /* con la funcion fetchAll podemos consumir todo el resultado */
 $resultado = $gsent->fetchAll();
-/* nos va a dar el array con la informacion de la tabla */
-var_dump($resultado);
+
+/* nos va a dar el array con la informacion de la tabla -->(var_dump($resultado);)*/
+
+
+//AGREGAR
+
+
+
 
 ?>
 
@@ -37,18 +47,30 @@ var_dump($resultado);
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <!-- foreach nos da los campos como datos tengamos en la tabla y   -->
+                <!-- foreach  que consume la variable local, y nos da los campos como datos tengamos en la tabla y   -->
                 <?php  foreach($resultado as $dato):?>
                 <!-- añadimos el php para que nos pinte el color correspondiente a cada casillla -->
                 <div class="alert alert-<?php echo $dato['colores'];?>
  text-uppercase" role="alert">
+
                     <!-- nos da el color y la descripcion con los echo -->
                     <?php echo $dato['colores'];?>
-
+                    -
+                    <?php echo $dato['descripcion'];?>
 
                 </div>
                 <?php  endforeach ?>
+
+                <div class="col-md-6">
+                    <form>
+                        <input type="text" class="form- control mt-3 "name="colores">
+                        <input type="text" class="form- control mt-3 "name="descripcion">
+                        <button class="btn btn-primary mt-3">Agregar Colores</button>
+                    </form>
+
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -64,6 +86,26 @@ var_dump($resultado);
     </script>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
+
+
+
 
 </html>
