@@ -19,6 +19,20 @@ $resultado = $gsent->fetchAll();
 
 
 //AGREGAR
+if ($_POST) {
+   $color = $_POST['colores'];
+   $descripcion = $_POST['descripcion'];
+//creamos la sentencia insetar colores, y ponemos interrogantes como campos tenemos para que sea mas seguro,
+   $sql_agregar =  'INSERT INTO colores (colores,descripcion) VALUES (?,?) ';
+   //inventamos una variable y la preparamos
+   $sentencia_agregar = $pdo->prepare($sql_agregar);
+
+   //y la ejecutamos
+   $sentencia_agregar-> execute(
+       array($color,$descripcion));
+
+
+}
 
 
 
@@ -62,7 +76,8 @@ $resultado = $gsent->fetchAll();
                 <?php  endforeach ?>
 
                 <div class="col-md-6">
-                    <form>
+                    <h2>Agragar Elementos</h2>
+                    <form method="POST">
                         <input type="text" class="form- control mt-3 "name="colores">
                         <input type="text" class="form- control mt-3 "name="descripcion">
                         <button class="btn btn-primary mt-3">Agregar Colores</button>
