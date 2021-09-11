@@ -31,7 +31,19 @@ if ($_POST) {
    $sentencia_agregar-> execute(
        array($color,$descripcion));
 
+   header('location:index.php');    
+}
+//guardamos en la variable id lo que nos trea por url
+if ($_GET) {
+    $id = $_GET['id'];
+   //unico porque es solo para un elemento
+    $sql_unico = 'SELECT * FROM colores WHERE id=?';
+    $gsent_unico = $pdo->prepare( $sql_unico);
+    $gsent_unico-> execute(array($id));
+    //fetch porque es un resultado unico y el id es unico siempre
+    $resultado_unico =  $sql_unico->fetch();
 
+    var_dump( $resultado_unico);
 }
 
 
@@ -51,6 +63,10 @@ if ($_POST) {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 
     <title>Proyecto PHP Y MAMP</title>
 </head>
@@ -72,16 +88,31 @@ if ($_POST) {
                     -
                     <?php echo $dato['descripcion'];?>
 
+                    <a href="index.php?id= <?php echo $dato['id'];?>" class="float-right">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+
                 </div>
                 <?php  endforeach ?>
 
                 <div class="col-md-6">
-                    <h2>Agragar Elementos</h2>
+                    <?php if (!$_GET): ?> 
+                    <h2>Agregar Elementos</h2>
                     <form method="POST">
-                        <input type="text" class="form- control mt-3 "name="colores">
-                        <input type="text" class="form- control mt-3 "name="descripcion">
-                        <button class="btn btn-primary mt-3">Agregar Colores</button>
+                        <input type="text" class="form- control mt-3 " name="colores">
+                        <input type="text" class="form- control mt-3 " name="descripcion">
+                        <button class="btn btn-primary mt-3 text-capitalice">Agregar Colores</button>
                     </form>
+                    <?php endif ?>
+
+                    <?php if ($_GET): ?> 
+                    <h2>EDITAR ELEMENTOS</h2>
+                    <form method="GET" action = "editar.php">
+                        <input type="text" class="form- control mt-3 " name="colores">
+                        <input type="text" class="form- control mt-3 " name="descripcion">
+                        <button class="btn btn-primary mt-3 ">Agregar Colores</button>
+                    </form>
+                    <?php endif ?>
 
                 </div>
             </div>
